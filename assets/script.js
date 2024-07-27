@@ -1,35 +1,46 @@
+// DOM Manipulations
 let todoItemsContainer = document.getElementById('todoItemsContainer');
 let todoUserInputEl = document.getElementById('todoUserInput');
 let addButtonEl = document.getElementById('addButton');
+let addTodoButtonEl = document.getElementById('addTodoButton');
+// DOM Manipulations
 
-let todoList = [{
-        text: 'Learn HTML',
-        uniqueId: 1
-    },
-    {
-        text: "Learn CSS",
-        uniqueId: 2
-    },
-    {
-        text: "Learn JavaScript",
-        uniqueId: 3
+// Getting todoList from local storage
+let todoList = gettingTodoFromLocalStorage();
+
+function gettingTodoFromLocalStorage() {
+    let getItem = localStorage.getItem('todoList');
+    let parsedTodoList = JSON.parse(getItem);
+    if (parsedTodoList === null) {
+        return [];
     }
-];
+    else {
+        return parsedTodoList;
+    }
+}
+// Getting todoList from local storage
 
+// todoList Array Length
 let todoCount = todoList.length;
-console.log(todoCount);
+// todoList Array Length
 
+// checkbox on click
 function onClickChanges(checkboxId, labelId) {
     let inputEl = document.getElementById(checkboxId);
     let labelEl = document.getElementById(labelId);
     labelEl.classList.toggle('checked');
 }
+// checkbox on click
 
+
+// Delete icon on click
 function onDeleteRemove(listId) {
     let listEl = document.getElementById(listId);
     todoItemsContainer.removeChild(listEl);
 }
+// Delete icon on click
 
+// Dynamic todoList code snippets
 function createAndAppend(todo) {
 
     let checkboxId = "checkbox" + todo.uniqueId;
@@ -66,20 +77,26 @@ function createAndAppend(todo) {
     deleteIcon.classList.add('far', 'fa-trash-alt', 'delete-icon');
     deleteIconContainer.appendChild(deleteIcon);
 
+    // checkbox function call
     checkboxInput.onclick = function() {
         onClickChanges(checkboxId, labelId);
     };
 
+    // deleteIcon function call
     deleteIcon.onclick = function() {
         onDeleteRemove(listId);
     };
 
 }
+// Dynamic todoList code snippets
 
+// Loop execution of todoList
 for (let todo of todoList) {
     createAndAppend(todo);
 }
+// Loop execution of todoList
 
+// Add button
 function onAddTodo() {
     let userInputValue = todoUserInputEl.value;
     todoCount = todoCount + 1;
@@ -99,3 +116,15 @@ function onAddTodo() {
 addButtonEl.onclick = function() {
     onAddTodo();
 };
+// Add button
+
+// Save Button
+function saveChanges() {
+    let stringifiedTodoList = JSON.stringify(todoList);
+    localStorage.setItem('todoList', stringifiedTodoList);
+}
+
+addTodoButtonEl.onclick = function() {
+    saveChanges();
+}
+// Save Button
