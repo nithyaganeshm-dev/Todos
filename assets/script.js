@@ -105,6 +105,7 @@ function onAddTodo() {
             text: userInputValue,
             uniqueId: todoCount
         };
+        todoList.push(newTodoList);
 
         createAndAppend(newTodoList);
         todoUserInputEl.value = "";
